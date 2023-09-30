@@ -67,4 +67,8 @@ This project is open-source and is licensed under MIT.
 ---
 ## Contract Deployment
 
-Goerli: 0x9C1f271F4B0645f3e53B5BF430AF94FF6aBEe780
+| Network | Contract Address | Subgraph |
+|----|----|-----|
+| Goerli | 0x9C1f271F4B0645f3e53B5BF430AF94FF6aBEe780 | https://api.studio.thegraph.com/query/20058/crypto-donations/v0.0.1
+
+
