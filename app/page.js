@@ -4,7 +4,7 @@ import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 
 export default function Home() {
   return (
-    <div className="bg-gradient-to-b from-[#d8f0f0] to-[#76c6cd] h-screen flex flex-col items-center">
+    <div className="bg-gradient-to-b from-[#d8f0f0] to-[#76c6cd] min-h-screen flex flex-col items-center">
       <div className="shadow-xl relative mb-10">
         <img src="/banner.png" alt="banner" />
 
@@ -30,8 +30,8 @@ export default function Home() {
       </div>
 
       {/* Table in the center of the page */}
-<div className="bg-[#76c6cd] w-3/4 p-4 rounded-lg mb-10">
-    <table className="w-full text-white border-collapse">
+    <div className="bg-[#76c6cd] w-3/4 p-4 rounded-lg mb-10">
+      <table className="w-full text-white border-collapse">
       <thead>
         <tr className="border-b-2 border-white">
           <th className="px-4 py-2 text-left">Network</th>
@@ -53,159 +53,7 @@ export default function Home() {
           <td className="px-4 py-2">***1234</td>
           <td className="px-4 py-2">***Thanks!</td>
         </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Binance</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">BNB</td>
-          <td className="px-4 py-2">2.3</td>
-          <td className="px-4 py-2">***5678</td>
-          <td className="px-4 py-2">***Appreciated!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Polygon</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">MATIC</td>
-          <td className="px-4 py-2">0.8</td>
-          <td className="px-4 py-2">***9012</td>
-          <td className="px-4 py-2">***Grateful!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Ethereum</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">ETH</td>
-          <td className="px-4 py-2">1.5</td>
-          <td className="px-4 py-2">***1234</td>
-          <td className="px-4 py-2">***Thanks!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Binance</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">BNB</td>
-          <td className="px-4 py-2">2.3</td>
-          <td className="px-4 py-2">***5678</td>
-          <td className="px-4 py-2">***Appreciated!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Polygon</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">MATIC</td>
-          <td className="px-4 py-2">0.8</td>
-          <td className="px-4 py-2">***9012</td>
-          <td className="px-4 py-2">***Grateful!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Ethereum</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">ETH</td>
-          <td className="px-4 py-2">1.5</td>
-          <td className="px-4 py-2">***1234</td>
-          <td className="px-4 py-2">***Thanks!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Binance</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">BNB</td>
-          <td className="px-4 py-2">2.3</td>
-          <td className="px-4 py-2">***5678</td>
-          <td className="px-4 py-2">***Appreciated!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Polygon</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">MATIC</td>
-          <td className="px-4 py-2">0.8</td>
-          <td className="px-4 py-2">***9012</td>
-          <td className="px-4 py-2">***Grateful!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Ethereum</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">ETH</td>
-          <td className="px-4 py-2">1.5</td>
-          <td className="px-4 py-2">***1234</td>
-          <td className="px-4 py-2">***Thanks!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Binance</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">BNB</td>
-          <td className="px-4 py-2">2.3</td>
-          <td className="px-4 py-2">***5678</td>
-          <td className="px-4 py-2">***Appreciated!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Polygon</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">MATIC</td>
-          <td className="px-4 py-2">0.8</td>
-          <td className="px-4 py-2">***9012</td>
-          <td className="px-4 py-2">***Grateful!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Ethereum</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">ETH</td>
-          <td className="px-4 py-2">1.5</td>
-          <td className="px-4 py-2">***1234</td>
-          <td className="px-4 py-2">***Thanks!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Binance</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">BNB</td>
-          <td className="px-4 py-2">2.3</td>
-          <td className="px-4 py-2">***5678</td>
-          <td className="px-4 py-2">***Appreciated!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Polygon</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">MATIC</td>
-          <td className="px-4 py-2">0.8</td>
-          <td className="px-4 py-2">***9012</td>
-          <td className="px-4 py-2">***Grateful!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Ethereum</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">ETH</td>
-          <td className="px-4 py-2">1.5</td>
-          <td className="px-4 py-2">***1234</td>
-          <td className="px-4 py-2">***Thanks!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Binance</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">BNB</td>
-          <td className="px-4 py-2">2.3</td>
-          <td className="px-4 py-2">***5678</td>
-          <td className="px-4 py-2">***Appreciated!</td>
-        </tr>
-        <tr className="border-b border-white">
-          <td className="px-4 py-2">Polygon</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">0x1234...6789</td>
-          <td className="px-4 py-2">MATIC</td>
-          <td className="px-4 py-2">0.8</td>
-          <td className="px-4 py-2">***9012</td>
-          <td className="px-4 py-2">***Grateful!</td>
-        </tr>
+    
       </tbody>
     </table>
   </div>
