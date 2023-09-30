@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 
 export default function Home() {
   return (
@@ -18,14 +20,206 @@ export default function Home() {
 
         {/* Button and its note */}
         <div className="absolute mt-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-          <button className="bg-[#76c6cd] hover:bg-[#5ba9b5] text-white py-2 px-5 rounded-lg shadow-lg transition-colors duration-300 mb-1">
+          <button className="bg-[#76c6cd] hover:bg-[#5ba9b5] text-white py-2 px-5 rounded-lg shadow-xl transition-colors duration-300 mb-1">
             Connect Wallet
           </button>
           <p className="mt-2 text-sm text-gray-500">
             * Connect wallet to create yourself donation links.
           </p>
         </div>
+      </div>
 
+      {/* Table in the center of the page */}
+<div className="bg-[#76c6cd] w-3/4 p-4 rounded-lg mb-10">
+    <table className="w-full text-white border-collapse">
+      <thead>
+        <tr className="border-b-2 border-white">
+          <th className="px-4 py-2 text-left">Network</th>
+          <th className="px-4 py-2 text-left">Donator</th>
+          <th className="px-4 py-2 text-left">Recipient</th>
+          <th className="px-4 py-2 text-left">Token</th>
+          <th className="px-4 py-2 text-left">Amount</th>
+          <th className="px-4 py-2 text-left">Tag</th>
+          <th className="px-4 py-2 text-left">Memo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Ethereum</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">ETH</td>
+          <td className="px-4 py-2">1.5</td>
+          <td className="px-4 py-2">***1234</td>
+          <td className="px-4 py-2">***Thanks!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Binance</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">BNB</td>
+          <td className="px-4 py-2">2.3</td>
+          <td className="px-4 py-2">***5678</td>
+          <td className="px-4 py-2">***Appreciated!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Polygon</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">MATIC</td>
+          <td className="px-4 py-2">0.8</td>
+          <td className="px-4 py-2">***9012</td>
+          <td className="px-4 py-2">***Grateful!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Ethereum</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">ETH</td>
+          <td className="px-4 py-2">1.5</td>
+          <td className="px-4 py-2">***1234</td>
+          <td className="px-4 py-2">***Thanks!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Binance</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">BNB</td>
+          <td className="px-4 py-2">2.3</td>
+          <td className="px-4 py-2">***5678</td>
+          <td className="px-4 py-2">***Appreciated!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Polygon</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">MATIC</td>
+          <td className="px-4 py-2">0.8</td>
+          <td className="px-4 py-2">***9012</td>
+          <td className="px-4 py-2">***Grateful!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Ethereum</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">ETH</td>
+          <td className="px-4 py-2">1.5</td>
+          <td className="px-4 py-2">***1234</td>
+          <td className="px-4 py-2">***Thanks!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Binance</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">BNB</td>
+          <td className="px-4 py-2">2.3</td>
+          <td className="px-4 py-2">***5678</td>
+          <td className="px-4 py-2">***Appreciated!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Polygon</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">MATIC</td>
+          <td className="px-4 py-2">0.8</td>
+          <td className="px-4 py-2">***9012</td>
+          <td className="px-4 py-2">***Grateful!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Ethereum</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">ETH</td>
+          <td className="px-4 py-2">1.5</td>
+          <td className="px-4 py-2">***1234</td>
+          <td className="px-4 py-2">***Thanks!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Binance</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">BNB</td>
+          <td className="px-4 py-2">2.3</td>
+          <td className="px-4 py-2">***5678</td>
+          <td className="px-4 py-2">***Appreciated!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Polygon</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">MATIC</td>
+          <td className="px-4 py-2">0.8</td>
+          <td className="px-4 py-2">***9012</td>
+          <td className="px-4 py-2">***Grateful!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Ethereum</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">ETH</td>
+          <td className="px-4 py-2">1.5</td>
+          <td className="px-4 py-2">***1234</td>
+          <td className="px-4 py-2">***Thanks!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Binance</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">BNB</td>
+          <td className="px-4 py-2">2.3</td>
+          <td className="px-4 py-2">***5678</td>
+          <td className="px-4 py-2">***Appreciated!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Polygon</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">MATIC</td>
+          <td className="px-4 py-2">0.8</td>
+          <td className="px-4 py-2">***9012</td>
+          <td className="px-4 py-2">***Grateful!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Ethereum</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">ETH</td>
+          <td className="px-4 py-2">1.5</td>
+          <td className="px-4 py-2">***1234</td>
+          <td className="px-4 py-2">***Thanks!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Binance</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">BNB</td>
+          <td className="px-4 py-2">2.3</td>
+          <td className="px-4 py-2">***5678</td>
+          <td className="px-4 py-2">***Appreciated!</td>
+        </tr>
+        <tr className="border-b border-white">
+          <td className="px-4 py-2">Polygon</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">0x1234...6789</td>
+          <td className="px-4 py-2">MATIC</td>
+          <td className="px-4 py-2">0.8</td>
+          <td className="px-4 py-2">***9012</td>
+          <td className="px-4 py-2">***Grateful!</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+      {/* Footer with copyright and icons */}
+      <div className="mt-auto flex items-center mb-4">
+          <span className="mr-4 text-gray-700">Copy right 2023 @lolieatapple</span>
+          <a href="https://twitter.com/lolieatapple" target="_blank" rel="noopener noreferrer" className="mr-2">
+              <FontAwesomeIcon icon={faTwitter} className="h-6 w-6 text-gray-700" />
+          </a>
+          <a href="https://github.com/lolieatapple/crypto-donations" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faGithub} className="h-6 w-6 text-gray-700" />
+          </a>
       </div>
     </div>
   )
