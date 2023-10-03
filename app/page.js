@@ -1,8 +1,26 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { subgraphGet, toShortAddress } from './utils';
+import { TOKENS } from './constants';
 
-export default function Home() {
+const getData = async () => {
+  let data = await subgraphGet("latest", 1);
+  data = data.map(v=>{
+    return {
+      ...v,
+      amount: v.amount / Math.pow(10, TOKENS[v.token].decimals),
+      symbol: TOKENS[v.token].symbol,
+      blockTimestamp: new Date(v.blockTimestamp * 1000).toISOString().split('.')[0].replace('T', ' ')
+    }
+  });
+  console.log('data1', data);
+  return data;
+}
+
+export default async function Home() {
+  const data = await getData();
+
   return (
     <div className="bg-gradient-to-b from-[#d8f0f0] to-[#76c6cd] min-h-screen flex flex-col items-center px-4 md:px-0">
       <div className="shadow-xl relative mb-10 w-full">
@@ -34,6 +52,7 @@ export default function Home() {
         <table className="w-full text-white border-collapse">
           <thead>
             <tr className="border-b-2 border-white">
+              <th className="px-4 py-2 text-left">Time</th>
               <th className="px-4 py-2 text-left">Network</th>
               <th className="px-4 py-2 text-left">Donator</th>
               <th className="px-4 py-2 text-left">Recipient</th>
@@ -44,15 +63,22 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-white">
-              <td className="px-4 py-2">Ethereum</td>
-              <td className="px-4 py-2">0x1234...6789</td>
-              <td className="px-4 py-2">0x1234...6789</td>
-              <td className="px-4 py-2">ETH</td>
-              <td className="px-4 py-2">1.5</td>
-              <td className="px-4 py-2">***1234</td>
-              <td className="px-4 py-2">***Thanks!</td>
-            </tr>
+            {
+              data.map((v, i) => {
+                return (
+                  <tr className="border-b border-white" key={v.id}>
+                    <td className="px-4 py-2">{v.blockTimestamp}</td>
+                    <td className="px-4 py-2">{v.network}</td>
+                    <td className="px-4 py-2">{toShortAddress(v.donator)}</td>
+                    <td className="px-4 py-2">{toShortAddress(v.recipient)}</td>
+                    <td className="px-4 py-2">{v.symbol}</td>
+                    <td className="px-4 py-2">{v.amount}</td>
+                    <td className="px-4 py-2">{v.tag}</td>
+                    <td className="px-4 py-2">{v.memo}</td>
+                  </tr>
+                )
+              })
+            }
           </tbody>
         </table>
       </div>
