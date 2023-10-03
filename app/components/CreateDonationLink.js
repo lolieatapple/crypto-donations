@@ -47,6 +47,8 @@ export default function CreateDonationLink(props) {
               readOnly
               className="w-full p-2 border rounded-md mb-4"
             />
+            <p className='mb-5 text-sm text-gray-500 '>* Please copy your Donation URL to wherever you need it, such as the destination for your Donation button.</p>
+
             <button
               onClick={async () => {
                 await navigator.clipboard.writeText(donationUrl);
