@@ -18,6 +18,21 @@ function getQueryByName(name, page, addr) {
         }
       }
       `;
+    case "personal":
+      return `
+      {
+        donations(where: {recipient: "${addr}"}, orderBy: blockNumber, orderDirection: desc, first: 100, skip: ${page * 100}) {
+          id
+          donator
+          recipient
+          token
+          amount
+          blockTimestamp
+          tag
+          memo
+        }
+      }
+      `;
     default:
       break;
   }

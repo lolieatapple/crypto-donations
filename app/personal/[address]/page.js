@@ -1,12 +1,13 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
-import { subgraphGet, toShortAddress } from './utils';
-import { TOKENS } from './constants';
-import ConnectWallet from './components/ConnectWallet';
+import { toShortAddress, subgraphGet } from '@/app/utils';
+import { TOKENS } from '@/app/constants';
+import Paging from '@/app/components/Paging';
+import CreateDonationLink from '@/app/components/CreateDonationLink';
 
-const getData = async () => {
-  let data = await subgraphGet("latest", 1);
+const getData = async (address, page = '0') => {
+  let data = await subgraphGet("personal", page, address);
   data = data.map(v=>{
     return {
       ...v,
@@ -15,36 +16,27 @@ const getData = async () => {
       blockTimestamp: new Date(v.blockTimestamp * 1000).toISOString().split('.')[0].replace('T', ' ')
     }
   });
-  console.log('data1', data);
+  console.log('personal', data);
   return data;
 }
 
-export default async function Home() {
-  const data = await getData();
-
+export default async function Personal(props) {
+  const data = await getData(props.params.address, props.searchParams.page);
+  console.log('props', props);
+  const currentPage = Number(props.searchParams.page ? props.searchParams.page : 0);
   return (
     <div className="bg-gradient-to-b from-[#d8f0f0] to-[#76c6cd] min-h-screen flex flex-col items-center px-4 md:px-0">
-      <div className="shadow-xl relative mb-10 w-full">
-        <img src="/banner.png" alt="banner" className="w-full" />
-
-        {/* Big title */}
-        <h1 className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:text-2xl lg:text-4xl xl:text-5xl font-bold text-[#000]">
-          Crypto Donations
-        </h1>
-
-        {/* Subtitle */}
-        <p className="absolute mt-10 top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:text-lg text-[#000] hidden md:block">
-          Seamless and secure way for users to donate native coins or ERC20 tokens.
-        </p>
-
-        {/* Button and its note */}
-        <div className="absolute mt-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-          <ConnectWallet />
-          <p className="xl:mt-2 text-sm text-gray-500 hidden md:block">
-            * Connect wallet to view & create yourself donation links.
-          </p>
-        </div>
+      <div className="relative overflow-hidden mb-10 w-full h-[160px]">
+        <img src="/banner.png" alt="banner" className="w-full absolute bottom-0" />
+        <a href="/" className="absolute top-2 left-2 text-sm text-white bg-[#76c6cd] px-2 py-1 rounded hover:bg-opacity-80">
+          Back to Home
+        </a>
+        <a href="/" className="absolute top-2 right-2 text-sm text-black bg-[#d8f0f0] px-2 py-1 rounded hover:bg-opacity-80">
+          { toShortAddress(props.params.address) }
+        </a>
       </div>
+
+      <CreateDonationLink address={props.params.address} />
 
       {/* Table in the center of the page */}
       <div className="bg-[#76c6cd] w-full md:w-3/4 p-4 rounded-lg mb-10 overflow-x-auto">
@@ -80,6 +72,7 @@ export default async function Home() {
             }
           </tbody>
         </table>
+        <Paging currentPage={currentPage} data={data} params={props.params} />
       </div>
 
       {/* Footer with copyright and icons */}
