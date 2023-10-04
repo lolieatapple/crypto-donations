@@ -1,8 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
-import { toShortAddress, subgraphGet } from '@/app/utils';
-import { TOKENS } from '@/app/constants';
+import { toShortAddress, subgraphGet, capitalizeFirstLetter, getTokenDecimals, getTokenSymbol } from '@/app/utils';
 import Paging from '@/app/components/Paging';
 import CreateDonationLink from '@/app/components/CreateDonationLink';
 
@@ -11,8 +10,8 @@ const getData = async (address, page = '0') => {
   data = data.map(v=>{
     return {
       ...v,
-      amount: v.amount / Math.pow(10, TOKENS[v.token].decimals),
-      symbol: TOKENS[v.token].symbol,
+      amount: v.amount / Math.pow(10, getTokenDecimals(v.token)),
+      symbol: getTokenSymbol(v.token),
       blockTimestamp: new Date(v.blockTimestamp * 1000).toISOString().split('.')[0].replace('T', ' ')
     }
   });
@@ -59,7 +58,7 @@ export default async function Personal(props) {
                 return (
                   <tr className="border-b border-white" key={v.id}>
                     <td className="px-4 py-2">{v.blockTimestamp}</td>
-                    <td className="px-4 py-2">{v.network}</td>
+                    <td className="px-4 py-2">{capitalizeFirstLetter(v.network)}</td>
                     <td className="px-4 py-2">{toShortAddress(v.donator)}</td>
                     <td className="px-4 py-2">{toShortAddress(v.recipient)}</td>
                     <td className="px-4 py-2">{v.symbol}</td>
