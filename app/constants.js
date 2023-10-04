@@ -12,3 +12,7 @@ export const TOKENS = [
 export const RPC_URLS = {
   'goerli': 'https://ethereum-goerli.publicnode.com',
 }
+
+export const SC_ADDR = {
+  'goerli': '0x9C1f271F4B0645f3e53B5BF430AF94FF6aBEe780',
+};

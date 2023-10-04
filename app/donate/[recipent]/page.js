@@ -1,6 +1,6 @@
 'use client';
-import { RPC_URLS, SUBGRAPH_URLS, TOKENS } from '@/app/constants';
-import { toShortAddress, capitalizeFirstLetter, ERC20_ABI, getTokenSymbol } from '@/app/utils';
+import { RPC_URLS, SC_ADDR, SUBGRAPH_URLS, TOKENS } from '@/app/constants';
+import { toShortAddress, capitalizeFirstLetter, ERC20_ABI, getTokenSymbol, getTokenDecimals } from '@/app/utils';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -33,7 +33,7 @@ export default function Donate(props) {
   }
 
   const approveDisabled = useMemo(()=>(token.toLocaleLowerCase() === ETH), [token]);
-  const donateDiabled = useMemo(()=>(Number(allowance) < Number(amount)), [allowance, amount]);
+  const donateDiabled = useMemo(()=>(Number(allowance) < Number(amount) || Number(amount) === 0), [allowance, amount]);
 
   useEffect(()=>{
     if (!from) {
@@ -58,7 +58,17 @@ export default function Donate(props) {
         setLoadingDonate(false);
       });
     } else {
-      
+      let contract = new ethers.Contract(token, ERC20_ABI, provider);
+      contract.balanceOf(from).then((balance)=>{
+        console.log('balance', balance);
+        setBalance(ethers.formatEther(balance));
+        setLoadingDonate(false);
+      });
+      contract.allowance(from, SC_ADDR[network]).then((allowance)=>{
+        console.log('allowance', allowance);
+        setAllowance(ethers.formatUnits(allowance, getTokenDecimals(token)));
+        setLoadingApprove(false);
+      });
     }
 
   }, [token, network, amount, from]);
