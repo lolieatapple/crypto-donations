@@ -1,7 +1,7 @@
 'use client';
 import { RPC_URLS, SC_ADDR, SUBGRAPH_URLS, TOKENS } from '@/app/constants';
-import { toShortAddress, capitalizeFirstLetter, ERC20_ABI, getTokenSymbol, getTokenDecimals } from '@/app/utils';
-import React, { useEffect, useMemo, useState } from 'react';
+import { toShortAddress, capitalizeFirstLetter, ERC20_ABI, getTokenSymbol, getTokenDecimals, SC_ABI } from '@/app/utils';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ethers } from 'ethers';
@@ -9,7 +9,6 @@ import { ethers } from 'ethers';
 const ETH = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 
 export default function Donate(props) {
-  console.log('Donate', props);
   const [from, setFrom] = useState('');
   const [loadingApprove, setLoadingApprove] = useState(false);
   const [loadingDonate, setLoadingDonate] = useState(false);
@@ -19,6 +18,7 @@ export default function Donate(props) {
   const [memo, setMemo] = useState('');
   const [balance, setBalance] = useState('loading');
   const [allowance, setAllowance] = useState(0);
+  const [updater, setUpdater] = useState(0);
 
 
   const symbol = useMemo(()=>(getTokenSymbol(token)), [token]);
@@ -32,7 +32,7 @@ export default function Donate(props) {
     setFrom(accounts[0]);
   }
 
-  const approveDisabled = useMemo(()=>(token.toLocaleLowerCase() === ETH), [token]);
+  const approveDisabled = useMemo(()=>(token.toLocaleLowerCase() === ETH || Number(allowance) >= Number(amount)), [token, allowance, amount]);
   const donateDiabled = useMemo(()=>(Number(allowance) < Number(amount) || Number(amount) === 0), [allowance, amount]);
 
   useEffect(()=>{
@@ -64,14 +64,83 @@ export default function Donate(props) {
         setBalance(ethers.formatEther(balance));
         setLoadingDonate(false);
       });
-      contract.allowance(from, SC_ADDR[network]).then((allowance)=>{
-        console.log('allowance', allowance);
-        setAllowance(ethers.formatUnits(allowance, getTokenDecimals(token)));
+      contract.allowance(from, SC_ADDR[network]).then((_allowance)=>{
+        console.log('allowance', _allowance);
+        setAllowance(ethers.formatUnits(_allowance, getTokenDecimals(token)));
         setLoadingApprove(false);
       });
     }
 
+  }, [token, network, amount, from, updater]);
+
+  const approve = useCallback(async () => {
+    if (!from) {
+      connectWallet();
+      return;
+    };
+    if (!network) return;
+    if (!token) return;
+    setLoadingApprove(true);
+    try {
+      // switch metamask network
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: TOKENS.find(v=>v.address === token).chainId }],
+      });
+      // get metamask provider
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      // get signer
+      const signer = await provider.getSigner();
+      let contract = new ethers.Contract(token, ERC20_ABI, signer);
+      let tx = await contract.getFunction('approve').send(SC_ADDR[network], ethers.parseUnits(amount, getTokenDecimals(token)));
+      console.log('tx', tx);
+      await tx.wait();
+      setUpdater(updater + 1);
+    } catch (error) {
+      alert('Approve failed');
+      console.error('approve error', error);
+    }
+    setLoadingApprove(false);
   }, [token, network, amount, from]);
+
+  const recipent = props.params.recipent;
+  const tag = props.searchParams.tag;
+  console.log('Donate', props, recipent, tag);
+  
+
+  const donate = useCallback(async () => {
+    if (!from) {
+      connectWallet();
+      return;
+    };
+    console.log('donate', recipent, token, ethers.parseUnits(amount, getTokenDecimals(token)), tag, memo);
+
+    if (!network) return;
+    if (!token) return;
+    if (!recipent) return;
+    setLoadingDonate(true);
+    try {
+      // switch metamask network
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: TOKENS.find(v=>v.address === token).chainId }],
+      });
+      // get metamask provider
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      // get signer
+      const signer = await provider.getSigner();
+      let contract = new ethers.Contract(SC_ADDR[network], SC_ABI, signer);
+      let tx = await contract.getFunction('donate').send(recipent, token, ethers.parseUnits(amount, getTokenDecimals(token)), tag, memo);
+      console.log('tx', tx);
+      await tx.wait();
+      setUpdater(updater + 1);
+      alert('Donate success');
+    } catch (error) {
+      alert('Donate failed');
+      console.error('donate error', error);
+    }
+    setLoadingDonate(false);
+  }, [token, network, amount, from, memo, recipent, tag]);
 
   return (
     <div className="bg-gradient-to-b from-[#d8f0f0] to-[#76c6cd] min-h-screen flex flex-col items-center justify-center px-4 md:px-0">
@@ -123,6 +192,7 @@ export default function Donate(props) {
             disabled={approveDisabled} 
             className={`bg-blue-500 text-white rounded px-4 py-2 mt-4 w-[48%] 
               ${approveDisabled ? 'hover:bg-blue-500 cursor-not-allowed opacity-60' : 'hover:bg-green-500'}`}
+            onClick={approve}
           >
             {
               loadingApprove ? <FontAwesomeIcon icon={faSpinner} className="animate-spin" /> : 'Approve'
@@ -132,6 +202,7 @@ export default function Donate(props) {
             disabled={donateDiabled} 
             className={`bg-blue-500 text-white rounded px-4 py-2 mt-4 w-[48%] ml-[4%]
               ${donateDiabled ? 'hover:bg-blue-500 cursor-not-allowed opacity-60' : 'hover:bg-green-500'}`}
+            onClick={donate}
           >
             {
               loadingDonate ? <FontAwesomeIcon icon={faSpinner} className="animate-spin" /> : 'Donate'
