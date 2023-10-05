@@ -13,7 +13,7 @@ export default function Donate(props) {
   const [loadingApprove, setLoadingApprove] = useState(false);
   const [loadingDonate, setLoadingDonate] = useState(false);
   const [network, setNetwork] = useState('goerli');
-  const [token, setToken] = useState(ETH);
+  const [token, setToken] = useState({address: ETH, symbol: 'ETH', decimals: 18, network: 'goerli', chainId: '0x5'});
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
   const [balance, setBalance] = useState('loading');
@@ -21,7 +21,7 @@ export default function Donate(props) {
   const [updater, setUpdater] = useState(0);
 
 
-  const symbol = useMemo(()=>(getTokenSymbol(token)), [token]);
+  const symbol = token.symbol;
 
   const connectWallet = async () => {
     if (!window.ethereum) {
@@ -31,8 +31,8 @@ export default function Donate(props) {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     setFrom(accounts[0]);
   }
-
-  const approveDisabled = useMemo(()=>(token.toLocaleLowerCase() === ETH || Number(allowance) >= Number(amount)), [token, allowance, amount]);
+  console.log('token', token);
+  const approveDisabled = useMemo(()=>(token.address.toLocaleLowerCase() === ETH || Number(allowance) >= Number(amount)), [token, allowance, amount]);
   const donateDiabled = useMemo(()=>(Number(allowance) < Number(amount) || Number(amount) === 0), [allowance, amount]);
 
   useEffect(()=>{
@@ -48,7 +48,7 @@ export default function Donate(props) {
     const rpcUrl = RPC_URLS[network];
     const provider = new ethers.JsonRpcProvider(rpcUrl);
     
-    if (token.toLocaleLowerCase() === ETH) {
+    if (token.address.toLocaleLowerCase() === ETH) {
       setLoadingApprove(false);
       console.log('from', from);
       provider.getBalance(from).then((balance)=>{
@@ -58,7 +58,7 @@ export default function Donate(props) {
         setLoadingDonate(false);
       });
     } else {
-      let contract = new ethers.Contract(token, ERC20_ABI, provider);
+      let contract = new ethers.Contract(token.address, ERC20_ABI, provider);
       contract.balanceOf(from).then((balance)=>{
         console.log('balance', balance);
         setBalance(ethers.formatEther(balance));
@@ -66,7 +66,7 @@ export default function Donate(props) {
       });
       contract.allowance(from, SC_ADDR[network]).then((_allowance)=>{
         console.log('allowance', _allowance);
-        setAllowance(ethers.formatUnits(_allowance, getTokenDecimals(token)));
+        setAllowance(ethers.formatUnits(_allowance, token.decimals));
         setLoadingApprove(false);
       });
     }
@@ -79,20 +79,20 @@ export default function Donate(props) {
       return;
     };
     if (!network) return;
-    if (!token) return;
+    if (!token.address) return;
     setLoadingApprove(true);
     try {
       // switch metamask network
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: TOKENS.find(v=>v.address === token).chainId }],
+        params: [{ chainId: token.chainId }],
       });
       // get metamask provider
       const provider = new ethers.BrowserProvider(window.ethereum);
       // get signer
       const signer = await provider.getSigner();
-      let contract = new ethers.Contract(token, ERC20_ABI, signer);
-      let tx = await contract.getFunction('approve').send(SC_ADDR[network], ethers.parseUnits(amount, getTokenDecimals(token)));
+      let contract = new ethers.Contract(token.address, ERC20_ABI, signer);
+      let tx = await contract.getFunction('approve').send(SC_ADDR[network], ethers.parseUnits(amount, token.decimals));
       console.log('tx', tx);
       await tx.wait();
       setUpdater(updater + 1);
@@ -105,7 +105,7 @@ export default function Donate(props) {
 
   const recipent = props.params.recipent;
   const tag = props.searchParams.tag;
-  console.log('Donate', props, recipent, tag);
+  // console.log('Donate', props, recipent, tag);
   
 
   const donate = useCallback(async () => {
@@ -113,24 +113,31 @@ export default function Donate(props) {
       connectWallet();
       return;
     };
-    console.log('donate', recipent, token, ethers.parseUnits(amount, getTokenDecimals(token)), tag, memo);
+    console.log('donate', recipent, token, ethers.parseUnits(amount, token.decimals), tag, memo);
 
     if (!network) return;
-    if (!token) return;
+    if (!token.address) return;
     if (!recipent) return;
     setLoadingDonate(true);
     try {
+      let chainId = token.chainId;
+      console.log('chainId', chainId);
       // switch metamask network
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: TOKENS.find(v=>v.address === token).chainId }],
+        params: [{ chainId }],
       });
       // get metamask provider
       const provider = new ethers.BrowserProvider(window.ethereum);
       // get signer
       const signer = await provider.getSigner();
       let contract = new ethers.Contract(SC_ADDR[network], SC_ABI, signer);
-      let tx = await contract.getFunction('donate').send(recipent, token, ethers.parseUnits(amount, getTokenDecimals(token)), tag, memo);
+      let tx;
+      if (token.address.toLocaleLowerCase() !== ETH) {
+        tx = await contract.getFunction('donate').send(recipent, token.address, ethers.parseUnits(amount, token.decimals), tag, memo);
+      } else {
+        tx = await contract.getFunction('donate').send(recipent, token.address, ethers.parseUnits(amount, token.decimals), tag, memo, { value: ethers.parseUnits(amount, token.decimals)});
+      }
       console.log('tx', tx);
       await tx.wait();
       setUpdater(updater + 1);
@@ -157,7 +164,12 @@ export default function Donate(props) {
           <div className="grid grid-cols-1 gap-4 mb-4 mt-4">
             <label className="block">
               <span className="text-gray-700">Network:</span>
-              <select onChange={e=>setNetwork(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded w-full">
+              <select onChange={e=>{
+                setNetwork(e.target.value);
+                let _token = TOKENS.find(v=>v.network === e.target.value);
+                console.log('_token', _token);
+                setToken(_token);
+              }} className="mt-1 p-2 border border-gray-300 rounded w-full">
                 {
                   Object.keys(SUBGRAPH_URLS).map((key, i) => (
                     <option key={key} value={key}>{capitalizeFirstLetter(key)}</option>
@@ -167,12 +179,16 @@ export default function Donate(props) {
             </label>
             <label className="block">
               <span className="text-gray-700">Coin / Token:</span>
-              <select onChange={e=>{
-                setToken(e.target.value);
-              }} className="mt-1 p-2 border border-gray-300 rounded w-full">
+              <select
+                value={token.address+'_'+token.network}
+                onChange={e=>{
+                console.log('e.target.value', e.target.value);
+                let _token = TOKENS.find(v=>v.address+'_'+v.network === e.target.value);
+                setToken(_token);
+                }} className="mt-1 p-2 border border-gray-300 rounded w-full">
                 {
-                  TOKENS.map((v, i) => (
-                    <option key={i} value={v.address}>{v.symbol}</option>
+                  TOKENS.filter(v=>v.network === network).map((v, i) => (
+                    <option key={i} value={v.address+'_'+v.network}>{v.symbol}</option>
                   ))
                 }
               </select>

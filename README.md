@@ -69,6 +69,8 @@ This project is open-source and is licensed under MIT.
 
 | Network | Contract Address | Subgraph |
 |----|----|-----|
-| Goerli | 0x9C1f271F4B0645f3e53B5BF430AF94FF6aBEe780 | https://api.studio.thegraph.com/query/20058/crypto-donations/v0.0.1
-
+| Goerli | 0x9C1f271F4B0645f3e53B5BF430AF94FF6aBEe780 | https://api.studio.thegraph.com/query/20058/crypto-donations/v0.0.1 |
+| Avalanche | 0x00e5330Ece02a25bE85cfDfc1a19d5f06C8f5E28 | **Coming Soon** |
+| Binance Smart Chain | 0x5107033Dd55d70e8241534C6509697dcfB5c72F8 | **Coming Soon** |
+| Arbitrum | 0x4f1aB74c2a9E8f591e8A80768e115C9f75935bAD | **Coming Soon** |
 
