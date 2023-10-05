@@ -10,7 +10,7 @@ const getData = async () => {
     return {
       ...v,
       amount: v.amount / Math.pow(10, getTokenDecimals(v.token)),
-      symbol: getTokenSymbol(v.token),
+      symbol: getTokenSymbol(v.token, v.network),
       blockTimestamp: new Date(v.blockTimestamp * 1000).toISOString().split('.')[0].replace('T', ' ')
     }
   });

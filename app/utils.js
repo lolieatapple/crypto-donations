@@ -84,8 +84,9 @@ export function getTokenDecimals(tokenAddress) {
   }
 }
 
-export function getTokenSymbol(tokenAddress) {
-  let token = TOKENS.find((v) => v.address.toLocaleLowerCase() === tokenAddress.toLocaleLowerCase());
+export function getTokenSymbol(tokenAddress, network) {
+  console.log('getTokenSymbol', tokenAddress, network);
+  let token = TOKENS.find((v) => v.address.toLocaleLowerCase() === tokenAddress.toLocaleLowerCase() && v.network === network);
   if (token) {
     return token.symbol;
   } else {
