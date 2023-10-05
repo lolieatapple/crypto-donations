@@ -61,7 +61,7 @@ export default function Donate(props) {
       let contract = new ethers.Contract(token.address, ERC20_ABI, provider);
       contract.balanceOf(from).then((balance)=>{
         console.log('balance', balance);
-        setBalance(ethers.formatEther(balance));
+        setBalance(ethers.formatUnits(balance, token.decimals));
         setLoadingDonate(false);
       });
       contract.allowance(from, SC_ADDR[network]).then((_allowance)=>{
