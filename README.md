@@ -69,8 +69,9 @@ This project is open-source and is licensed under MIT.
 
 | Network | Contract Address | Subgraph |
 |----|----|-----|
+| Ethereum | 0xa63A35951DD74f6a00DfDB0A749f04aDb27b4F27 | https://api.studio.thegraph.com/query/20058/crypto-donations-eth/v0.0.1 |
 | Goerli | 0x9C1f271F4B0645f3e53B5BF430AF94FF6aBEe780 | https://api.studio.thegraph.com/query/20058/crypto-donations/v0.0.1 |
-| Avalanche | 0x00e5330Ece02a25bE85cfDfc1a19d5f06C8f5E28 | **Coming Soon** |
-| Binance Smart Chain | 0x5107033Dd55d70e8241534C6509697dcfB5c72F8 | **Coming Soon** |
-| Arbitrum | 0x4f1aB74c2a9E8f591e8A80768e115C9f75935bAD | **Coming Soon** |
+| Avalanche | 0x00e5330Ece02a25bE85cfDfc1a19d5f06C8f5E28 | https://api.studio.thegraph.com/query/20058/crypto-donations-avalanche/v0.0.1 |
+| Binance Smart Chain | 0x5107033Dd55d70e8241534C6509697dcfB5c72F8 | https://api.thegraph.com/subgraphs/name/lolieatapple/crypto-donations-bsc |
+| Arbitrum | 0x4f1aB74c2a9E8f591e8A80768e115C9f75935bAD | https://api.studio.thegraph.com/query/20058/crypto-donations-arbitrum/v0.0.1 |
 

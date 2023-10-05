@@ -12,8 +12,8 @@ export default function Donate(props) {
   const [from, setFrom] = useState('');
   const [loadingApprove, setLoadingApprove] = useState(false);
   const [loadingDonate, setLoadingDonate] = useState(false);
-  const [network, setNetwork] = useState('goerli');
-  const [token, setToken] = useState({address: ETH, symbol: 'ETH', decimals: 18, network: 'goerli', chainId: '0x5'});
+  const [network, setNetwork] = useState('ethereum');
+  const [token, setToken] = useState({address: ETH, symbol: 'ETH', decimals: 18, network: 'ethereum', chainId: '0x1'});
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
   const [balance, setBalance] = useState('loading');
