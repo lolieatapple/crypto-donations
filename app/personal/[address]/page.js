@@ -37,6 +37,8 @@ export default async function Personal(props) {
 
       <CreateDonationLink address={props.params.address} />
 
+      <div className='text-lg m-5 p-2 pl-5 pr-5 rounded-2xl bg-[#76c6cd] text-white'>↓ The donations you have received ↓</div>
+
       {/* Table in the center of the page */}
       <div className="bg-[#76c6cd] w-full md:w-3/4 p-4 rounded-lg mb-10 overflow-x-auto">
         <table className="w-full text-white border-collapse">

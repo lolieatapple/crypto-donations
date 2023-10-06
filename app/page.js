@@ -44,7 +44,7 @@ export default async function Home() {
           </p>
         </div>
       </div>
-
+      <div className='text-lg m-5 p-2 pl-5 pr-5 rounded-2xl bg-[#76c6cd] text-white'>↓ Latest Donations ↓</div>
       {/* Table in the center of the page */}
       <div className="bg-[#76c6cd] w-full md:w-3/4 p-4 rounded-lg mb-10 overflow-x-auto">
         <table className="w-full text-white border-collapse">
